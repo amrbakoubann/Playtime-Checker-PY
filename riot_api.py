@@ -25,6 +25,14 @@ def calculate_total_playtime(summoner_id): #function to calculate summoner playt
 
 # other Riot API related functions
 def get_match_duration(match_id):
-    # You'll need to implement this function to fetch match details
-    # and return the match duration
+    url = f"{RIOT_API_BASE_URL}match/v4/matches/{match_id}"
+    response = requests.get(url, headers={"X-Riot-Token": API_KEY})
+
+    if response.status_code == 200:
+        match_details = response.json()
+        # Assuming 'gameDuration' is the field containing match duration in seconds
+        return match_details.get('gameDuration', 0) / 60  # Convert seconds to minutes
+    else:
+        print(f"Error fetching match info: {response.status_code}")
+        return 0
     pass
